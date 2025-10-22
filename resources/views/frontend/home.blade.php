@@ -185,59 +185,8 @@
     </div>
 </section>
 
-<!-- Newsletter Section -->
-<section class="newsletter-section py-5" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 col-xl-6">
-                <div class="text-center text-light mb-4">
-                    <i class="bi bi-envelope-heart mb-3" style="font-size: 3rem; color: var(--accent-color);"></i>
-                    <h3 class="mb-3" style="font-size: 2rem;">
-                        {{ $locale == 'id' ? 'Berlangganan Newsletter' : 'Subscribe to Newsletter' }}
-                    </h3>
-                    <p class="mb-4" style="font-size: 1.1rem; opacity: 0.9;">
-                        {{ $locale == 'id' 
-                           ? 'Dapatkan update terbaru dan artikel eksklusif langsung di inbox Anda' 
-                           : 'Get the latest updates and exclusive articles directly in your inbox' 
-                        }}
-                    </p>
-                </div>
-                
-                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('{{ $locale == 'id' ? 'Terima kasih telah berlangganan!' : 'Thank you for subscribing!' }}');">
-                    <div class="input-group input-group-lg shadow-lg">
-                        <input type="email" 
-                               class="form-control border-0" 
-                               placeholder="{{ $locale == 'id' ? 'Masukkan alamat email Anda' : 'Enter your email address' }}" 
-                               style="padding: 1rem 1.5rem; font-size: 1rem;"
-                               required>
-                        <button class="btn text-white px-4" 
-                                type="submit"
-                                style="background: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
-                            {{ $locale == 'id' ? 'Berlangganan' : 'Subscribe' }}
-                        </button>
-                    </div>
-                    <small class="d-block text-light text-center mt-3" style="opacity: 0.7;">
-                        {{ $locale == 'id' 
-                           ? 'Kami menghormati privasi Anda. Berhenti berlangganan kapan saja.' 
-                           : 'We respect your privacy. Unsubscribe at any time.' 
-                        }}
-                    </small>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-
 <style>
-    .newsletter-form .form-control:focus {
-        box-shadow: none;
-        border-color: transparent;
-    }
+
     
-    .newsletter-form button:hover {
-        opacity: 0.9;
-        transform: translateY(-1px);
-        transition: all 0.2s ease;
-    }
 </style>
 @endsection

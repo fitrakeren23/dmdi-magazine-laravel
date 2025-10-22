@@ -162,33 +162,7 @@
                         </div>
                     </div>
                     
-                    <!-- Newsletter Signup -->
-                    <div class="sidebar-widget mb-4">
-                        <div class="card border-0 shadow-sm">
-                            <div class="card-body p-4">
-                                <div class="text-center mb-3">
-                                    <i class="bi bi-envelope-heart" style="font-size: 2.5rem; color: var(--accent-color);"></i>
-                                </div>
-                                <h5 class="card-title text-center mb-3">
-                                    {{ $locale == 'id' ? 'Berlangganan Newsletter' : 'Subscribe to Newsletter' }}
-                                </h5>
-                                <p class="card-text small text-muted text-center mb-3">
-                                    {{ $locale == 'id' 
-                                       ? 'Dapatkan update artikel terbaru langsung di email Anda' 
-                                       : 'Get the latest articles directly to your email' 
-                                    }}
-                                </p>
-                                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('{{ $locale == 'id' ? 'Terima kasih!' : 'Thank you!' }}');">
-                                    <div class="mb-3">
-                                        <input type="email" class="form-control" placeholder="{{ $locale == 'id' ? 'Email Anda' : 'Your Email' }}" required>
-                                    </div>
-                                    <button class="btn w-100 text-white fw-semibold" type="submit" style="background: var(--accent-color);">
-                                        {{ $locale == 'id' ? 'Berlangganan' : 'Subscribe' }}
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+
 
                     <!-- Related Articles -->
                     @if($relatedArticles->count() > 0)
