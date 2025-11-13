@@ -4,7 +4,7 @@
 @section('page-title', 'Edit Artikel')
 
 @section('content')
-<form action="{{ route('articles.update', $article->id) }}" method="POST" enctype="multipart/form-data">
+<form id="article-form" action="{{ route('articles.update', $article->id) }}" method="POST" enctype="multipart/form-data">
     @include('admin.articles.form')
 </form>
 @endsection

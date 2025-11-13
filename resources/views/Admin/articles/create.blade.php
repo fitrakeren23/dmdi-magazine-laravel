@@ -4,7 +4,7 @@
 @section('page-title', 'Buat Artikel Baru')
 
 @section('content')
-<form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data">
+<form id="article-form" action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data">
     @include('admin.articles.form')
 </form>
 @endsection
