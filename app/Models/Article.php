@@ -48,20 +48,29 @@ class Article extends Model
     }
 
     // Accessors: convenience to get the displayed title/content/excerpt
-    public function getTitleAttribute()
-    {
-        return app()->getLocale() === 'en' ? $this->title_en : $this->title_id;
+   public function getTitleAttribute()
+{
+    if (app()->getLocale() === 'en') {
+        return $this->title_en ?: $this->title_id;
     }
+    return $this->title_id;
+}
 
-    public function getContentAttribute()
-    {
-        return app()->getLocale() === 'en' ? $this->content_en : $this->content_id;
-    }
 
-    public function getExcerptAttribute()
-    {
-        return app()->getLocale() === 'en' ? $this->excerpt_en : $this->excerpt_id;
+ public function getContentAttribute()
+{
+    if (app()->getLocale() === 'en') {
+        return $this->content_en ?: $this->content_id;
     }
+    return $this->content_id;
+}
+public function getExcerptAttribute()
+{
+    if (app()->getLocale() === 'en') {
+        return $this->excerpt_en ?: $this->excerpt_id;
+    }
+    return $this->excerpt_id;
+}
 
     // Helper: get the display name for author (prefers related User, falls back to author string)
     public function getAuthorNameAttribute()

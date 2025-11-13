@@ -61,8 +61,7 @@
                     <input type="text" 
                            class="form-control" 
                            id="title_en" 
-                           name="title_en" 
-                           value="{{ old('title_en', $article->title_en ?? '') }}"
+                           name="title_en" value="{{ old('title_en', $article->title_en ?? '') }}">
                            required>
                 </div>
                 

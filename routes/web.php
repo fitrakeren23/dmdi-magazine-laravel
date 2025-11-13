@@ -13,8 +13,8 @@ Route::get('/', function () {
 });
 
 // Multilingual Frontend Routes
-Route::get('/{locale}', [HomeController::class, 'index'])->where('locale', 'id|en');
-Route::get('/{locale}/article/{slug}', [FrontendController::class, 'showArticle'])->where('locale', 'id|en');
+Route::get('/{locale}', [HomeController::class, 'index'])->where('locale', 'id|en')->name('frontend.home');
+Route::get('/{locale}/article/{slug}', [FrontendController::class, 'showArticle'])->where('locale', 'id|en')->name('frontend.article.show');
 
 Route::get('/login', function () {
     return redirect()->route('admin.login');
