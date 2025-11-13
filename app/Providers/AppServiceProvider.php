@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View; // ditambahkan
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Share current locale with all views so blades that expect $locale won't error
+        View::composer('*', function ($view) {
+            $view->with('locale', app()->getLocale());
+        });
     }
 }

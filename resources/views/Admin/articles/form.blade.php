@@ -37,12 +37,17 @@
                 </div>
                 
                 <div class="mb-3">
-                    <label for="content_id" class="form-label">Konten (Indonesia) *</label>
-                    <textarea class="form-control" 
+                    <label class="form-label">Konten (Indonesia) *</label>
+                    <!-- Hidden textarea that will receive editor HTML on submit -->
+                    <textarea class="d-none" 
                               id="content_id" 
-                              name="content_id" 
+                              name="content_id"
                               rows="10"
                               required>{{ old('content_id', $article->content_id ?? '') }}</textarea>
+                    <!-- Quill editor container -->
+                    <div id="editor_content_id" class="border rounded" style="min-height:350px;">
+                        {!! old('content_id', $article->content_id ?? '') !!}
+                    </div>
                 </div>
             </div>
         </div>
@@ -57,39 +62,42 @@
             </div>
             <div class="card-body">
                 <div class="mb-3">
-                    <label for="title_en" class="form-label">Article Title (English) *</label>
+                    <label for="title_en" class="form-label">Article Title (English)</label>
                     <input type="text" 
                            class="form-control" 
                            id="title_en" 
-                           name="title_en" value="{{ old('title_en', $article->title_en ?? '') }}">
-                           required>
+                           name="title_en" 
+                           value="{{ old('title_en', $article->title_en ?? '') }}">
                 </div>
                 
                 <div class="mb-3">
-                    <label for="excerpt_en" class="form-label">Excerpt (English) *</label>
+                    <label for="excerpt_en" class="form-label">Excerpt (English)</label>
                     <textarea class="form-control" 
                               id="excerpt_en" 
                               name="excerpt_en" 
                               rows="3" 
-                              maxlength="500"
-                              {{ old('excerpt_en', $article->excerpt_en ?? '') }}</textarea>
+                              maxlength="500">{{ old('excerpt_en', $article->excerpt_en ?? '') }}</textarea>
                     <div class="form-text">Maximum 500 characters</div>
                 </div>
                 
                 <div class="mb-3">
-                    <label for="content_en" class="form-label">Content (English) *</label>
-                    <textarea class="form-control" 
+                    <label class="form-label">Content (English)</label>
+                    <!-- Hidden textarea for english content -->
+                    <textarea class="d-none" 
                               id="content_en" 
-                              name="content_en" 
-                              rows="10"
-                             {{ old('content_en', $article->content_en ?? '') }}</textarea>
+                              name="content_en"
+                              rows="10">{{ old('content_en', $article->content_en ?? '') }}</textarea>
+                    <!-- Quill editor container for English -->
+                    <div id="editor_content_en" class="border rounded" style="min-height:350px;">
+                        {!! old('content_en', $article->content_en ?? '') !!}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     
     <div class="col-md-4">
-        <!-- Sidebar Settings -->
+        <!-- Sidebar Settings (unchanged except preview link fix below) -->
         <div class="card border-0 shadow-sm mb-4">
             <div class="card-header bg-white border-0">
                 <h6 class="mb-0 fw-bold">Pengaturan</h6>
@@ -195,10 +203,10 @@
             </div>
         </div>
     </div>
-<!-- QUILL.JS EDITOR -->
-<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
-<script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
+</div>
 
+@push('styles')
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 <style>
 .ql-editor {
   min-height: 350px;
@@ -209,12 +217,16 @@
   font-family: inherit;
 }
 </style>
+@endpush
 
+@push('scripts')
+<script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // Untuk Content Indonesia
-  const contentIdElement = document.getElementById('content_id');
-  const quill1 = new Quill('#content_id', {
+  // Quill for Indonesian
+  const textareaId = document.getElementById('content_id');
+  const editorContainerId = document.getElementById('editor_content_id');
+  const quill1 = new Quill('#editor_content_id', {
     theme: 'snow',
     modules: {
       toolbar: [
@@ -226,10 +238,13 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     placeholder: 'Tulis konten artikel dalam Bahasa Indonesia...'
   });
-  
-  // Untuk Content English
-  const contentEnElement = document.getElementById('content_en'); 
-  const quill2 = new Quill('#content_en', {
+  // set initial content (if any)
+  quill1.root.innerHTML = editorContainerId.innerHTML || '';
+
+  // Quill for English
+  const textareaEn = document.getElementById('content_en');
+  const editorContainerEn = document.getElementById('editor_content_en');
+  const quill2 = new Quill('#editor_content_en', {
     theme: 'snow',
     modules: {
       toolbar: [
@@ -241,17 +256,14 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     placeholder: 'Write article content in English...'
   });
+  quill2.root.innerHTML = editorContainerEn.innerHTML || '';
 
-  // Set initial content
-  quill1.root.innerHTML = contentIdElement.value;
-  quill2.root.innerHTML = contentEnElement.value;
-
-  // Update hidden fields before form submit
+  // On submit, copy editor HTML into hidden textareas
   const form = document.querySelector('form');
   form.addEventListener('submit', function(e) {
-    contentIdElement.value = quill1.root.innerHTML;
-    contentEnElement.value = quill2.root.innerHTML;
+    textareaId.value = quill1.root.innerHTML;
+    textareaEn.value = quill2.root.innerHTML;
   });
 });
 </script>
-</div>
+@endpush
