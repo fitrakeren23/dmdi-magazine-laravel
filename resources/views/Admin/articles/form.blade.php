@@ -173,7 +173,8 @@
         <!-- Action Buttons -->
         <div class="card border-0 shadow-sm">
             <div class="card-body">
-                <button type="submit" class="btn btn-primary w-100 py-2 fw-bold mb-2">
+                <!-- tombol berubah ke type="button" dan diberi id untuk JS -->
+                <button type="button" id="submit-article" class="btn btn-primary w-100 py-2 fw-bold mb-2">
                     <i class="bi bi-check-circle me-1"></i>
                     {{ isset($article) ? 'Perbarui Artikel' : 'Buat Artikel' }}
                 </button>
@@ -258,12 +259,30 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   quill2.root.innerHTML = editorContainerEn.innerHTML || '';
 
-  // On submit, copy editor HTML into hidden textareas
+  // On submit, copy editor HTML into hidden textareas (keystroke submit tetap menangani ini)
   const form = document.querySelector('form');
-  form.addEventListener('submit', function(e) {
-    textareaId.value = quill1.root.innerHTML;
-    textareaEn.value = quill2.root.innerHTML;
-  });
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      textareaId.value = quill1.root.innerHTML;
+      textareaEn.value = quill2.root.innerHTML;
+    });
+  }
+
+  // Jika tombol submit berada di luar form (kasus Anda), gunakan listener pada tombol untuk submit form
+  const submitBtn = document.getElementById('submit-article');
+  if (submitBtn) {
+    submitBtn.addEventListener('click', function() {
+      const targetForm = document.querySelector('form');
+      if (!targetForm) {
+        alert('Formulir tidak ditemukan pada halaman ini.');
+        return;
+      }
+      // pastikan konten editor disalin ke textarea sebelum submit (jika form tidak memicu handler submit)
+      textareaId.value = quill1.root.innerHTML;
+      textareaEn.value = quill2.root.innerHTML;
+      targetForm.submit();
+    });
+  }
 });
 </script>
 @endpush
