@@ -239,8 +239,10 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     placeholder: 'Tulis konten artikel dalam Bahasa Indonesia...'
   });
-  // set initial content (if any)
-  quill1.root.innerHTML = editorContainerId.innerHTML || '';
+  // safe-set initial content
+  if (editorContainerId && quill1 && editorContainerId.innerHTML.trim().length) {
+    quill1.root.innerHTML = editorContainerId.innerHTML;
+  }
 
   // Quill for English
   const textareaEn = document.getElementById('content_en');
@@ -257,29 +259,34 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     placeholder: 'Write article content in English...'
   });
-  quill2.root.innerHTML = editorContainerEn.innerHTML || '';
+  if (editorContainerEn && quill2 && editorContainerEn.innerHTML.trim().length) {
+    quill2.root.innerHTML = editorContainerEn.innerHTML;
+  }
 
-  // On submit, copy editor HTML into hidden textareas (keystroke submit tetap menangani ini)
-  const form = document.querySelector('form');
+  // Use the explicit article form by ID (prevents selecting logout form)
+  const form = document.getElementById('article-form');
+
   if (form) {
     form.addEventListener('submit', function(e) {
-      textareaId.value = quill1.root.innerHTML;
-      textareaEn.value = quill2.root.innerHTML;
+      if (textareaId) textareaId.value = quill1.root.innerHTML;
+      if (textareaEn) textareaEn.value = quill2.root.innerHTML;
     });
   }
 
-  // Jika tombol submit berada di luar form (kasus Anda), gunakan listener pada tombol untuk submit form
+  // Button outside the form submits the specific form by id
   const submitBtn = document.getElementById('submit-article');
   if (submitBtn) {
     submitBtn.addEventListener('click', function() {
-      const targetForm = document.querySelector('form');
+      const targetForm = document.getElementById('article-form');
       if (!targetForm) {
-        alert('Formulir tidak ditemukan pada halaman ini.');
+        alert('Formulir artikel tidak ditemukan pada halaman ini.');
         return;
       }
-      // pastikan konten editor disalin ke textarea sebelum submit (jika form tidak memicu handler submit)
-      textareaId.value = quill1.root.innerHTML;
-      textareaEn.value = quill2.root.innerHTML;
+
+      // Copy editor HTML into hidden textareas before submit
+      if (textareaId) textareaId.value = quill1.root.innerHTML;
+      if (textareaEn) textareaEn.value = quill2.root.innerHTML;
+
       targetForm.submit();
     });
   }
