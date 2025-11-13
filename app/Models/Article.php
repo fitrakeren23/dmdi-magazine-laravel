@@ -26,6 +26,15 @@ class Article extends Model
         'qr_code_path'
     ];
 
+    /**
+     * Casts
+     */
+    protected $casts = [
+        'is_published' => 'boolean',
+        'is_featured' => 'boolean',
+        'view_count' => 'integer',
+    ];
+
     // Relations
     public function category()
     {
@@ -58,5 +67,43 @@ class Article extends Model
     public function getAuthorNameAttribute()
     {
         return $this->authorUser ? $this->authorUser->name : $this->author;
+    }
+
+    /**
+     * URL accessors for featured image sizes.
+     * - featured_image stores medium path (uploads/articles/medium/...)
+     * - these helpers derive thumb and original siblings by filename.
+     */
+    public function getFeaturedImageUrlAttribute()
+    {
+        return $this->featured_image ? asset('storage/' . $this->featured_image) : null;
+    }
+
+    public function getFeaturedImageThumbUrlAttribute()
+    {
+        if (! $this->featured_image) {
+            return null;
+        }
+        $basename = basename($this->featured_image);
+        $thumbPath = 'uploads/articles/thumb/' . $basename;
+        return asset('storage/' . $thumbPath);
+    }
+
+    public function getFeaturedImageOriginalUrlAttribute()
+    {
+        if (! $this->featured_image) {
+            return null;
+        }
+        $basename = basename($this->featured_image);
+        $originalPath = 'uploads/articles/original/' . $basename;
+        return asset('storage/' . $originalPath);
+    }
+
+    /**
+     * Scope for published articles
+     */
+    public function scopePublished($query)
+    {
+        return $query->where('is_published', true);
     }
 }
