@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ $locale ?? 'id' }}">
+<html lang="{{ app()->getLocale() ?? 'id' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -81,7 +81,7 @@
 <header class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-3">
     <div class="container">
         <!-- Logo -->
-        <a class="navbar-brand fw-black fs-2 text-dark text-decoration-none" href="{{ url($locale ?? 'id') }}">
+        <a class="navbar-brand fw-black fs-2 text-dark text-decoration-none" href="{{ url('/' . (app()->getLocale() ?? 'id')) }}">
             DMDI
         </a>
         
@@ -94,7 +94,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item px-3">
-                    <a class="nav-link text-dark fw-semibold text-uppercase small" href="{{ url($locale ?? 'id') }}">
+                    <a class="nav-link text-dark fw-semibold text-uppercase small" href="{{ url('/' . (app()->getLocale() ?? 'id')) }}">
                         Beranda
                     </a>
                 </li>
@@ -110,17 +110,12 @@
                 </li>
             </ul>
             
-            <!-- Language Switcher -->
-            <div class="language-switcher">
-                <a href="{{ url('id') }}" 
-                   class="text-dark text-decoration-none fw-bold small px-2 {{ ($locale ?? 'id') === 'id' ? 'border-bottom border-dark' : 'opacity-50' }}">
-                    ID
-                </a>
-                <span class="text-muted">|</span>
-                <a href="{{ url('en') }}"
-                   class="text-dark text-decoration-none fw-bold small px-2 {{ ($locale ?? 'id') === 'en' ? 'border-bottom border-dark' : 'opacity-50' }}">
-                    EN
-                </a>
+            <!-- Language Switcher (partial) -->
+            <div class="language-switcher d-flex align-items-center">
+                @include('layouts.partials.lang-toggle')
+                <span class="text-muted mx-2">|</span>
+                {{-- optionally show both buttons --}}
+                <span class="d-none d-md-inline ms-2 small text-muted">Switch language</span>
             </div>
         </div>
     </div>
