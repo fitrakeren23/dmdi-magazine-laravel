@@ -72,7 +72,7 @@
                               name="excerpt_en" 
                               rows="3" 
                               maxlength="500"
-                              required>{{ old('excerpt_en', $article->excerpt_en ?? '') }}</textarea>
+                              {{ old('excerpt_en', $article->excerpt_en ?? '') }}</textarea>
                     <div class="form-text">Maximum 500 characters</div>
                 </div>
                 
@@ -82,7 +82,7 @@
                               id="content_en" 
                               name="content_en" 
                               rows="10"
-                              required>{{ old('content_en', $article->content_en ?? '') }}</textarea>
+                             {{ old('content_en', $article->content_en ?? '') }}</textarea>
                 </div>
             </div>
         </div>

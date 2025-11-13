@@ -48,7 +48,7 @@ class Article extends Model
     }
 
     // Accessors: convenience to get the displayed title/content/excerpt
-   public function getTitleAttribute()
+public function getTitleAttribute()
 {
     if (app()->getLocale() === 'en') {
         return $this->title_en ?: $this->title_id;
@@ -56,14 +56,14 @@ class Article extends Model
     return $this->title_id;
 }
 
-
- public function getContentAttribute()
+public function getContentAttribute()
 {
     if (app()->getLocale() === 'en') {
         return $this->content_en ?: $this->content_id;
     }
     return $this->content_id;
 }
+
 public function getExcerptAttribute()
 {
     if (app()->getLocale() === 'en') {
